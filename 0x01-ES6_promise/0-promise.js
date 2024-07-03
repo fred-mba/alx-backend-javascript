@@ -1,5 +1,5 @@
 export default function getResponseFromAPI() {
-  const myPromise = new Promise((resolve, reject) => {
+  const apiPromise = new Promise((resolve, reject) => {
     const success = true;
     if (success) {
       resolve('Data fetched successfully.');
@@ -7,5 +7,5 @@ export default function getResponseFromAPI() {
       reject(new Error('Failed to fetch data.'));
     }
   });
-  return myPromise;
+  return apiPromise;
 }
