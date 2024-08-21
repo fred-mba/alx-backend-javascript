@@ -17,10 +17,6 @@ const countStudents = (path) => new Promise((resolve, reject) => {
     }
 
     const lines = data.trim().split('\n').filter((line) => line.trim() !== '');
-    if (lines.length === 0) {
-      reject(new Error('Cannot load the database'));
-      return;
-    }
     const students = lines.slice(1);
 
     const fieldCounts = {};
@@ -51,17 +47,23 @@ const app = http.createServer((req, res) => {
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
     const dbFile = process.argv[2];
-    countStudents(dbFile)
-      .then((output) => {
-        res.setHeader('Content-Type', 'text/plain');
-        res.statusCode = 200;
-        res.end(`This is the list of our students\n${output}`);
-      })
-      .catch((error) => {
-        res.setHeader('Content-Type', 'text/plain');
-        res.statusCode = 500;
-        res.end(error.message);
-      });
+    if (!dbFile) {
+      res.setHeader('Content-Type', 'text/plain');
+      res.statusCode = 500;
+      res.end('Cannot load the database');
+    } else {
+      countStudents(dbFile)
+        .then((output) => {
+          res.setHeader('Content-Type', 'text/plain');
+          res.statusCode = 200;
+          res.end(`This is the list of our students\n${output}`);
+        })
+        .catch((error) => {
+          res.setHeader('Content-Type', 'text/plain');
+          res.statusCode = 500;
+          res.end(error.message);
+        });
+    }
   } else {
     res.statusCode = 404;
     res.end('Not Found');
