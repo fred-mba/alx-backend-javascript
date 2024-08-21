@@ -69,6 +69,8 @@ const app = http.createServer((req, res) => {
     res.end('Not Found');
   }
 });
-app.listen(1245);
+app.listen(1245, () => {
+  console.log('Server is listening on port 1245...');
+});
 
 module.exports = app;
