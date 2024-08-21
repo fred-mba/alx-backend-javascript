@@ -17,6 +17,10 @@ const countStudents = (path) => new Promise((resolve, reject) => {
     }
 
     const lines = data.trim().split('\n').filter((line) => line.trim() !== '');
+    if (lines.length === 0) {
+      reject(new Error('Cannot load the database'));
+      return;
+    }
     const students = lines.slice(1);
 
     const fieldCounts = {};
