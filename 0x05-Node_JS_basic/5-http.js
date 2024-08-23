@@ -42,35 +42,24 @@ const countStudents = (path) => new Promise((resolve, reject) => {
 
 const app = http.createServer((req, res) => {
   if (req.url === '/') {
-    res.setHeader('Content-Type', 'text/plain');
-    res.statusCode = 200;
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
     res.end('Hello Holberton School!');
   } else if (req.url === '/students') {
     const dbFile = process.argv[2];
-    if (!dbFile) {
-      res.setHeader('Content-Type', 'text/plain');
-      res.statusCode = 500;
-      res.end('This is the list of our students\nCannot load the database');
-    } else {
-      countStudents(dbFile)
-        .then((output) => {
-          res.setHeader('Content-Type', 'text/plain');
-          res.statusCode = 200;
-          res.end(`This is the list of our students\n${output}`);
-        })
-        .catch((error) => {
-          res.setHeader('Content-Type', 'text/plain');
-          res.statusCode = 500;
-          res.end(error.message);
-        });
-    }
+    countStudents(dbFile)
+      .then((result) => {
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end(`This is the list of our students\n${result}`);
+      })
+      .catch((err) => {
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end(err.message);
+      });
   } else {
-    res.statusCode = 404;
+    res.writeHead(500, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
   }
 });
-app.listen(1245, () => {
-  console.log('Server is listening on port 1245...');
-});
+app.listen(1245);
 
 module.exports = app;
