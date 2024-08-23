@@ -12,6 +12,5 @@ describe('getPaymentTokenFromAPI', () => {
         expect(response).to.have.property('data', 'Successful response from the API');
         done();
       })
-      .catch((err) => done(err));
   }));
 });
