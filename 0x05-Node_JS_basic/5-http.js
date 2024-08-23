@@ -56,7 +56,7 @@ const app = http.createServer((req, res) => {
         res.end(err.message);
       });
   } else {
-    res.writeHead(500, { 'Content-Type': 'text/plain' });
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not Found');
   }
 });
